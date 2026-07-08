@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>经理仪表盘</h2>
+  <p>超级用户视图：生产进度、上传图片与库存健康概览。</p>
+</section>
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>生产监控</h3>
+    {% for entry in progress_entries %}
+    <div class="sourcing-card">
+      <p><strong>订单 {{ entry.product_id }}</strong> — {{ entry.component }}</p>
+      <p>状态：{{ entry.status }}</p>
+      {% if entry.photo_path %}
+      <p><strong>图片：</strong> <a href="/static/{{ entry.photo_path }}" target="_blank">{{ entry.photo_path }}</a></p>
+      {% endif %}
+    </div>
+    {% else %}
+    <p>尚无生产进度记录。</p>
+    {% endfor %}
+  </div>
+
+  <div class="panel">
+    <h3>Low Stock Parts</h3>
+    <ul class="order-list">
+      {% for part in low_stock_parts %}
+      <li><strong>{{ part.name }}</strong> – Stock {{ part.stock }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

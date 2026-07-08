@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Purchaser Workspace</h2>
+  <p>Select an active order, source parts, and place orders with automated actions.</p>
+</section>
+
+{% if message %}
+<div class="alert">{{ message }}</div>
+{% endif %}
+
+{% if modal_actions %}
+<dialog open class="modal">
+  <h4>Order actions</h4>
+  {% for action in modal_actions %}
+  <p>{{ action }}</p>
+  {% endfor %}
+</dialog>
+{% endif %}
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Active Orders</h3>
+    <ul class="order-list">
+      {% for order in orders %}
+      <li>
+        <a href="/purchaser/order/{{ order.product_id }}?role=Purchaser" class="order-link">
+          Order {{ order.product_id }} for customer {{ order.customer_id }} on {{ order.order_date }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>Order Details</h3>
+    {% if selected_order %}
+    <p><strong>Product:</strong> {{ selected_order.product_name }}</p>
+    <p><strong>Customer:</strong> {{ selected_order.customer_id }}</p>
+    <p><strong>Date:</strong> {{ selected_order.order_date }}</p>
+
+    <form method="post" action="/purchaser/place-order" class="stacked-form">
+      <input type="hidden" name="product_id" value="{{ selected_order.product_id }}" />
+      <input type="hidden" name="customer_id" value="{{ selected_order.customer_id }}" />
+      <input type="hidden" name="order_date" value="{{ selected_order.order_date }}" />
+
+      {% for item in bom_items %}
+      <div class="sourcing-card">
+        <h4>{{ item.component }} – {{ item.part_name }} (Qty {{ item.quantity }})</h4>
+        <p><strong>Type:</strong> {{ item.part_type }}</p>
+        <p><strong>Current Stock:</strong> {{ item.stock }}</p>
+        <label>Preferred supplier</label>
+        <select name="supplier_{{ item.part_id }}">
+          {% for supplier in item.suppliers %}
+          <option value="{{ supplier.supplier_id }}" {% if supplier.selected %}selected{% endif %}>
+            {{ supplier.supplier_name }} – ${{ supplier.price }} (pref {{ supplier.preferred_order }})
+          </option>
+          {% endfor %}
+        </select>
+        <input type="hidden" name="part_id_{{ item.part_id }}" value="{{ item.part_id }}" />
+        <input type="hidden" name="quantity_{{ item.part_id }}" value="{{ item.quantity }}" />
+      </div>
+      {% endfor %}
+
+      <button type="submit">Place Order</button>
+    </form>
+    {% else %}
+    <p>Select an active order to view its bill of materials.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

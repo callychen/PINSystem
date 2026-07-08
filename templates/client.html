@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Client Portal</h2>
+  <p>Browse the machine portfolio, place new orders, and request replacement parts by historical BOM version.</p>
+</section>
+
+{% if message %}
+<div class="alert">{{ message }}</div>
+{% endif %}
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Machine Portfolio</h3>
+    <ul class="order-list">
+      {% for product in products %}
+      <li><strong>{{ product.product_id }}</strong> – {{ product.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>Place a New Order</h3>
+    <form method="post" action="/client/order" class="stacked-form">
+      <input type="number" name="product_id" placeholder="Product ID" required />
+      <input type="number" name="customer_id" placeholder="Customer ID" required />
+      <input type="text" name="order_date" placeholder="Order Date (YYYY-MM-DD)" required />
+      <button type="submit">Create Order</button>
+    </form>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>Replacement Parts Request</h3>
+  <form method="post" action="/client/replacement" class="stacked-form">
+    <input type="text" name="product_name" placeholder="Product Name" required />
+    <input type="text" name="part_name" placeholder="Part Name" required />
+    <input type="text" name="order_date" placeholder="Original Order Date (YYYY-MM-DD)" required />
+    <button type="submit">Find Historical Part</button>
+  </form>
+
+  {% if replacement_result %}
+  <div class="sourcing-card">
+    <h4>Historical Match</h4>
+    <p><strong>Product:</strong> {{ replacement_result.product_name }}</p>
+    <p><strong>Part:</strong> {{ replacement_result.part_name }}</p>
+    <p><strong>Original Order Date:</strong> {{ replacement_result.order_date }}</p>
+    <p><strong>Matched Part ID:</strong> {{ replacement_result.part_id }}</p>
+    <p><strong>Effective Window:</strong> {{ replacement_result.effective_from }} to {{ replacement_result.effective_to }}</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Engineer Workspace</h2>
+  <p>Maintain parts, products, BOM mappings, suppliers, and sourcing links.</p>
+</section>
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Parts</h3>
+    <form method="post" action="/engineer/part" class="stacked-form">
+      <input type="text" name="part_id" placeholder="Part ID" required />
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="text" name="type" placeholder="Type" required />
+      <input type="number" name="stock" placeholder="Stock" min="0" required />
+      <textarea name="description" placeholder="Description"></textarea>
+      <button type="submit">Add Part</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Type</th><th>Stock</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {% for part in parts %}
+        <tr>
+          <td>{{ part.part_id }}</td>
+          <td>{{ part.name }}</td>
+          <td>{{ part.type }}</td>
+          <td>{{ part.stock }}</td>
+          <td>{{ part.description }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>Products</h3>
+    <form method="post" action="/engineer/product" class="stacked-form">
+      <input type="text" name="product_id" placeholder="Product ID" required />
+      <input type="text" name="name" placeholder="Product Name" required />
+      <button type="submit">Add Product</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Name</th></tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr><td>{{ product.product_id }}</td><td>{{ product.name }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Product Parts</h3>
+    <form method="post" action="/engineer/product-part" class="stacked-form">
+      <input type="text" name="product_id" placeholder="Product ID" required />
+      <input type="text" name="part_id" placeholder="Part ID" required />
+      <input type="text" name="component" placeholder="Component" required />
+      <input type="number" name="quantity" placeholder="Quantity" min="1" required />
+      <input type="date" name="effective_from" placeholder="Effective From" required />
+      <input type="date" name="effective_to" placeholder="Effective To" required />
+      <button type="submit">Add BOM Entry</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Product</th><th>Part</th><th>Component</th><th>Qty</th><th>From</th><th>To</th></tr>
+      </thead>
+      <tbody>
+        {% for row in product_parts %}
+        <tr>
+          <td>{{ row.product_id }}</td>
+          <td>{{ row.part_id }}</td>
+          <td>{{ row.component }}</td>
+          <td>{{ row.quantity }}</td>
+          <td>{{ row.effective_from }}</td>
+          <td>{{ row.effective_to }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>Suppliers</h3>
+    <form method="post" action="/engineer/supplier" class="stacked-form">
+      <input type="text" name="supplier_id" placeholder="Supplier ID" required />
+      <input type="text" name="supplier_name" placeholder="Supplier Name" required />
+      <input type="email" name="contact_email" placeholder="Email" />
+      <input type="text" name="link" placeholder="Ordering Link" />
+      <input type="number" name="lead_time" placeholder="Lead Time" min="0" required />
+      <button type="submit">Add Supplier</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Lead Time</th></tr>
+      </thead>
+      <tbody>
+        {% for supplier in suppliers %}
+        <tr>
+          <td>{{ supplier.supplier_id }}</td>
+          <td>{{ supplier.supplier_name }}</td>
+          <td>{{ supplier.contact_email }}</td>
+          <td>{{ supplier.lead_time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>Part-Supplier Mapping</h3>
+  <form method="post" action="/engineer/part-supplier" class="stacked-form">
+    <input type="text" name="part_id" placeholder="Part ID" required />
+    <input type="text" name="supplier_id" placeholder="Supplier ID" required />
+    <input type="number" name="price" placeholder="Price" step="0.01" required />
+    <input type="number" name="preferred_order" placeholder="Preferred Order" min="0" required />
+    <button type="submit">Add Mapping</button>
+  </form>
+  <table>
+    <thead>
+      <tr><th>Part</th><th>Supplier</th><th>Price</th><th>Preferred Order</th></tr>
+    </thead>
+    <tbody>
+      {% for row in part_suppliers %}
+      <tr>
+        <td>{{ row.part_id }}</td>
+        <td>{{ row.supplier_id }}</td>
+        <td>{{ row.price }}</td>
+        <td>{{ row.preferred_order }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

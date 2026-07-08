@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Manager Dashboard</h2>
+  <p>Superuser overview for production progress, uploaded photos, and inventory health.</p>
+</section>
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Production Monitor</h3>
+    {% for entry in progress_entries %}
+    <div class="sourcing-card">
+      <p><strong>Order {{ entry.product_id }}</strong> – {{ entry.component }}</p>
+      <p>{{ entry.status }}</p>
+      {% if entry.photo_path %}
+      <p><strong>Photo:</strong> <a href="/static/{{ entry.photo_path }}" target="_blank">{{ entry.photo_path }}</a></p>
+      {% endif %}
+    </div>
+    {% else %}
+    <p>No production progress recorded yet.</p>
+    {% endfor %}
+  </div>
+
+  <div class="panel">
+    <h3>Low Stock Parts</h3>
+    <ul class="order-list">
+      {% for part in low_stock_parts %}
+      <li><strong>{{ part.name }}</strong> – Stock {{ part.stock }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>客户门户</h2>
+  <p>浏览机型目录、提交新订单，或按历史BOM版本查询替换零件。</p>
+</section>
+
+{% if message %}
+<div class="alert">{{ message }}</div>
+{% endif %}
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>机型目录</h3>
+    <ul class="order-list">
+      {% for product in products %}
+      <li><strong>{{ product.product_id }}</strong> – {{ product.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>提交新订单</h3>
+    <form method="post" action="/client/order" class="stacked-form">
+      <input type="number" name="product_id" placeholder="产品编号" required />
+      <input type="number" name="customer_id" placeholder="客户编号" required />
+      <input type="text" name="order_date" placeholder="下单日期（YYYY-MM-DD）" required />
+      <button type="submit">提交订单</button>
+    </form>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>替换件查询</h3>
+  <form method="post" action="/client/replacement" class="stacked-form">
+    <input type="text" name="product_name" placeholder="产品名称" required />
+    <input type="text" name="part_name" placeholder="零件名称" required />
+    <input type="text" name="order_date" placeholder="原始订单日期（YYYY-MM-DD）" required />
+    <button type="submit">查询历史零件</button>
+  </form>
+
+  {% if replacement_result %}
+  <div class="sourcing-card">
+    <h4>历史匹配结果</h4>
+    <p><strong>产品：</strong> {{ replacement_result.product_name }}</p>
+    <p><strong>零件：</strong> {{ replacement_result.part_name }}</p>
+    <p><strong>原始订单日期：</strong> {{ replacement_result.order_date }}</p>
+    <p><strong>匹配零件编号：</strong> {{ replacement_result.part_id }}</p>
+    <p><strong>版本生效期：</strong> {{ replacement_result.effective_from }} 至 {{ replacement_result.effective_to }}</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

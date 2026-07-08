@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Operations Overview</h2>
+  <p>Choose a role from the selector to switch the workspace view.</p>
+</section>
+
+<section class="cards">
+  <article>
+    <h3>Parts</h3>
+    <p>{{ counts.parts }}</p>
+  </article>
+  <article>
+    <h3>Products</h3>
+    <p>{{ counts.products }}</p>
+  </article>
+  <article>
+    <h3>Active Orders</h3>
+    <p>{{ counts.orders }}</p>
+  </article>
+</section>
+{% endblock %}

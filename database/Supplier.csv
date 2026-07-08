@@ -1,0 +1,5 @@
+supplier_id,supplier_name,contact_email,lead_time
+1001,Tom,Standard,10
+1002,Tony,Standard,5
+1003,Clara,Non-Standard,15
+1004,Jean,Non-Standard,20

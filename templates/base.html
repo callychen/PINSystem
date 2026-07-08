@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PINSystem</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>PINSystem</h1>
+        <p>Manufacturing operations workspace</p>
+      </div>
+      <form method="get" action="/" class="role-switcher">
+        <label for="role">Current Role</label>
+        <select id="role" name="role" onchange="this.form.submit()">
+          {% for role_option in roles %}
+          <option value="{{ role_option }}" {% if role == role_option %}selected{% endif %}>{{ role_option }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </header>
+
+    <main>
+      <nav class="nav-links">
+        {% for role_option in roles %}
+        <a href="/?role={{ role_option }}" class="pill {% if role == role_option %}active{% endif %}">{{ role_option }}</a>
+        {% endfor %}
+      </nav>
+
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

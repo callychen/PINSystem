@@ -1,0 +1,150 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f7fb;
+  color: #213041;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #14213d;
+  color: white;
+}
+
+.topbar h1,
+.topbar p {
+  margin: 0;
+}
+
+.role-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pill {
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: #e5e7eb;
+  text-decoration: none;
+  color: #14213d;
+}
+
+.pill.active {
+  background: #2563eb;
+  color: white;
+}
+
+.hero {
+  margin-bottom: 1rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.cards article,
+.panel,
+.sourcing-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.two-col {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  margin-bottom: 1.25rem;
+}
+
+.stacked-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.stacked-form input,
+.stacked-form select,
+.stacked-form textarea,
+.stacked-form button {
+  padding: 0.6rem;
+  font-size: 1rem;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.45rem 0.25rem;
+  text-align: left;
+}
+
+.order-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.order-link {
+  text-decoration: none;
+  color: #2563eb;
+}
+
+.alert {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.modal h4 {
+  margin-top: 0;
+}

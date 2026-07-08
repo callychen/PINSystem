@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Production Team Workspace</h2>
+  <p>Track active builds, complete component milestones, and log progress photos.</p>
+</section>
+
+{% if message %}
+<div class="alert">{{ message }}</div>
+{% endif %}
+
+<section class="grid two-col">
+  <div class="panel">
+    <h3>Active Builds</h3>
+    <ul class="order-list">
+      {% for order in orders %}
+      <li>
+        <a href="/?role=Production&product_id={{ order.product_id }}" class="order-link">
+          <strong>Order {{ order.product_id }}</strong> for customer {{ order.customer_id }} on {{ order.order_date }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>Build Progress</h3>
+    {% if selected_order %}
+    <p><strong>Selected Build:</strong> {{ selected_order.product_name }} (Order {{ selected_order.product_id }})</p>
+    {% for group in component_groups %}
+    <div class="sourcing-card">
+      <h4>{{ group.component }}</h4>
+      <ul>
+        {% for item in group['items'] %}
+        <li>{{ item.part_name }} – Qty {{ item.quantity }} (Stock {{ item.stock }})</li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="/production/complete" enctype="multipart/form-data" class="stacked-form">
+        <input type="hidden" name="product_id" value="{{ selected_order.product_id }}" />
+        <input type="hidden" name="component" value="{{ group.component }}" />
+        <label>
+          <input type="checkbox" name="finished" value="1" /> Mark as Finished
+        </label>
+        <input type="file" name="photo" accept="image/*" />
+        <button type="submit">Submit Progress</button>
+      </form>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Select a build from the list to view component milestones.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

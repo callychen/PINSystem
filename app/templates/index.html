@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>运营概览</h2>
+  <p>从顶部的角色选择器切换视图以测试不同权限。</p>
+</section>
+
+<section class="cards">
+  <article>
+    <h3>零件总数</h3>
+    <p>{{ counts.parts }}</p>
+  </article>
+  <article>
+    <h3>产品总数</h3>
+    <p>{{ counts.products }}</p>
+  </article>
+  <article>
+    <h3>当前订单</h3>
+    <p>{{ counts.orders }}</p>
+  </article>
+</section>
+{% endblock %}
